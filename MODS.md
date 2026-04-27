@@ -95,13 +95,34 @@ Use existing VU meter movements in a dedicated panel module.
 
 ---
 
-## 5. Improved Mixer `[idea]`
-Replace 1N4148 diode ring with Mini-Circuits SBL-1 or ADE-1.
+## 5. Mixer Balance Fix `[planned]`
+The 1N4148 diode ring relies on T2 transformer symmetry for LO suppression. Any winding
+imbalance causes LO leakthrough at the IF port, degrading sensitivity and transmit spectral
+purity. Three options, easiest first:
+
+### Option A — Trimmer cap null `[planned]`
+Add a 5–30 pF ceramic trimmer across one half of T2's LO secondary (center tap to one end).
+Adjusting it compensates phase/amplitude imbalance in the winding and nulls LO feedthrough
+without any board rework beyond adding two solder points.
+
+- Adjust with SDR dongle (or second receiver) on IF port: tune for minimum LO signal
+- Frequency-dependent but stable across 40m; set once at 7.100 MHz
+- Cost: ~$1, no new ICs, no layout changes
+
+### Option B — Diode matching `[planned]`
+Select four 1N4148 diodes with matched forward voltage. Unequal Vf breaks ring symmetry
+and causes both LO and RF feedthrough.
+
+- Measure Vf with DMM in diode mode; aim for <2 mV spread across all four
+- Drop-in replacement, no other changes
+
+### Option C — ADE-1 / SBL-1 module replacement `[idea]`
+Replace the entire ring + T1/T2/T3 with a Mini-Circuits doubly-balanced mixer module.
 
 - ~10 dB noise floor improvement
 - Better dynamic range / IMD
 - Drop-in if footprint sized correctly
-- ADE-1 rated to 500 MHz (also works for 2m transverter)
+- ADE-1 rated to 500 MHz (same part as Mod #6 transverter — buy a pair)
 
 ---
 
